@@ -1,20 +1,35 @@
 import React, {useContext, useEffect, Fragment} from 'react';
 import { StyleSheet } from 'react-native';
-import FirebaseContext from '../context/firebase/firebaseContext';
+
+// Navigation
+import { useNavigation } from '@react-navigation/native';
+
 import { 
     Image,
     Text,
     FlatList,
     Box,
     HStack,
-    VStack
+    VStack,
+    Pressable,
+    Divider
 } from 'native-base';
 import globalStyles from '../styles/global';
+
+// Context
+import FirebaseContext from '../context/firebase/firebaseContext';
+import PedidoContext from '../context/pedidos/pedidosContext';
 
 const Menu = () => {
 
     // Context de Firebase
     const { menu, obtenerproductos } = useContext(FirebaseContext);
+
+    // Context de pedidos
+    const { seleccionarPlatillo } = useContext(PedidoContext);
+
+    // Redireccionar
+    const navigation = useNavigation();
 
     useEffect(() => {
       obtenerproductos();
@@ -47,13 +62,24 @@ const Menu = () => {
             data={menu}
             renderItem={ ({ item, index }) => 
 
-            <Fragment>
+            <Pressable onPress={ () => {
+                
+                //Eliminar propiedades que no se van a utilizar
+                const {existencia, ...platillo2} = item;
+
+                seleccionarPlatillo(platillo2);
+                navigation.navigate('DetallePlatillo');
+            }}>
+                
+            {({ isPressed }) => {
+
+                return <Box bg={isPressed ? "dark.700" : "dark.900"}>
             
                 { mostrarHeading (item.categoria, index) }
             
-                <HStack borderBottomWidth={1} borderColor="dark.700" p={2} alignItems='center'>
+                <HStack p={2} alignItems='center'>
 
-                    <Image size={100} source={{uri:item.imagen}} alt={item.nombre}/>
+                    <Image size='100px' source={{uri:item.imagen}} alt={item.nombre}/>
                     
                     <VStack style={globalStyles.contenido} px={2}>
                         <Text bold fontSize={16}>{item.nombre}</Text>
@@ -62,7 +88,12 @@ const Menu = () => {
                     </VStack>
                     
                 </HStack>
-            </Fragment>
+                
+                <Divider bg="dark.700"/>
+                </Box>
+
+            }}
+            </Pressable>
         } 
             keyExtractor={item => item.id} />
      );

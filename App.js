@@ -8,7 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 // Vistas
 import NuevaOrden from './views/NuevaOrden';
 import Menu from './views/Menu';
-import DetallePedido from './views/DetallePlatillo';
+import DetallePlatillo from './views/DetallePlatillo';
 import FormularioPedido from './views/FormuarioPlatillo';
 import ResumenPedido from './views/ResumenPedido';
 import ProgresoPedido from './views/ProgresoPedido';
@@ -42,17 +42,17 @@ const App = () => {
               }}
             >
               
-              <Stack.Screen name='Nueva orden' component={NuevaOrden} options={{ title: 'Nueva Orden' }}/>
+              <Stack.Screen name='NuevaOrden' component={NuevaOrden} options={{ title: 'Nueva Orden' }}/>
 
               <Stack.Screen name='Menu' component={Menu} options={{ title: 'Nuestro menu' }}/>
 
-              <Stack.Screen name='Detalle Orden' component={DetallePedido} options={{ title: 'Detalle del platillo' }}/>
+              <Stack.Screen name='DetallePlatillo' component={DetallePlatillo} options={{ title: 'Detalle del platillo' }}/>
 
-              <Stack.Screen name='Formulario Pedido' component={FormularioPedido} options={{ title: 'Ordenar platillo' }}/>
+              <Stack.Screen name='FormularioPedido' component={FormularioPedido} options={{ title: 'Ordenar platillo' }}/>
 
-              <Stack.Screen name='Resumen Pedido' component={ResumenPedido} options={{ title: 'Resumen pedido' }}/>
+              <Stack.Screen name='ResumenPedido' component={ResumenPedido} options={{ title: 'Resumen pedido' }}/>
               
-              <Stack.Screen name='Progreso Pedido' component={ProgresoPedido} options={{ title: 'Progreso pedido' }}/>
+              <Stack.Screen name='ProgresoPedido' component={ProgresoPedido} options={{ title: 'Progreso pedido' }}/>
             
             </Stack.Navigator>
           </NavigationContainer>
