@@ -17,6 +17,31 @@ const globalStyles = StyleSheet.create({
         textTransform: 'uppercase',
         fontWeight:'bold',
         color:'#000'
+    },
+    titulo:{
+        textAlign:'center',
+        marginTop:40,
+        marginBottom:20,
+        fontSize: 30,
+        fontWeight: 500
+    },
+    card:{
+        backgroundColor:'#f7f7f7',
+        padding: 15,
+        borderRadius: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4,
+    },
+    imagen: {
+        height: 300,
+        width: '100%',
+        borderRadius:10
     }
 })
 
