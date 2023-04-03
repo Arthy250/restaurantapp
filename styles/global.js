@@ -42,6 +42,10 @@ const globalStyles = StyleSheet.create({
         height: 300,
         width: '100%',
         borderRadius:10
+    },
+    cantidad:{
+        marginVertical: 20,
+        fontWeight: 'bold'
     }
 })
 
