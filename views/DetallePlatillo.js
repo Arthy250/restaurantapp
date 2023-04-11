@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { Image, Text, Heading, Box, VStack, View, Button, HStack, Center} from 'native-base';
 import globalStyles from '../styles/global';
-import { StyleSheet } from 'react-native';
 
 // Navigation
 import { useNavigation } from '@react-navigation/native';
@@ -17,8 +16,6 @@ const DetallePlatillo = () => {
     const { platillo } = useContext(PedidoContext);
 
     const {nombre, descripcion, precio, imagen, categoria} = platillo;
-
-    const [selected, setSelected] = React.useState(1);
 
     return ( 
         
@@ -47,6 +44,7 @@ const DetallePlatillo = () => {
                         </Center>
                     </Button>
                 </HStack>
+
             </Box>
         </Box>
         
