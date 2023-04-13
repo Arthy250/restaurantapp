@@ -7,7 +7,8 @@ import PedidoContext from './pedidosContext'
 import { 
     SELECCIONAR_PRODUCTO,
     CONFIRMAR_ORDENAR_PLATILLO,
-    MOSTRAR_TOTAL_PEDIDO
+    MOSTRAR_TOTAL_PEDIDO,
+    ELIMINAR_PRODUCTO
 } from '../../types'
 
 
@@ -21,7 +22,7 @@ const PedidoState = (props) => {
     }
 
     // useReucer con dispatch para ejecutar las funciones
-    const [state, dispatch] = useReducer(pedidosReducer, initialState)
+    const [state, dispatch] = useReducer(pedidosReducer, initialState);
 
     // Selecciona el producto que el usuario desea ordenar
     const seleccionarPlatillo = platillo => {
@@ -33,10 +34,20 @@ const PedidoState = (props) => {
 
     //Cuando el usuario confirma un pedido
     const guardarPedido = pedido => {
-        dispatch({
-            type: CONFIRMAR_ORDENAR_PLATILLO,
-            payload:pedido
-        })
+
+        //Verificar si el platillo se encuentra en el pedido
+        const platilloExistente = state.pedido.find( articulo => articulo.id === pedido.id );
+
+        if(platilloExistente){
+            platilloExistente.cantidad = platilloExistente.cantidad + pedido.cantidad
+            platilloExistente.total = platilloExistente.total + pedido.total
+        } else {
+            dispatch({
+                type: CONFIRMAR_ORDENAR_PLATILLO,
+                payload:pedido
+            })
+        }
+
     }
 
     //Muestra el total en el resumen
@@ -45,7 +56,15 @@ const PedidoState = (props) => {
             type: MOSTRAR_TOTAL_PEDIDO,
             payload: total
         })
-    } 
+    }
+
+    //Elimina un producto del pedido
+    const eliminarProducto = id => {
+        dispatch({
+            type: ELIMINAR_PRODUCTO,
+            payload: id
+        })
+    }
 
     return(
         <PedidoContext.Provider 
@@ -55,7 +74,8 @@ const PedidoState = (props) => {
                 total: state.total,
                 seleccionarPlatillo,
                 guardarPedido,
-                mostrarTotal
+                mostrarTotal,
+                eliminarProducto
             }}
         >
             {props.children}

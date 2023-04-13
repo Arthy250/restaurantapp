@@ -1,6 +1,6 @@
 import React, { useContext, useEffect} from 'react'
 import { Heading, HStack, Box, VStack, Text, Image, Divider, ScrollView, Button, Center} from 'native-base';
-import { StyleSheet, Alert } from 'react-native';
+import { Alert } from 'react-native';
 
 //Estilos
 import globalStyles from '../styles/global';
@@ -11,14 +11,17 @@ import PedidoContext from '../context/pedidos/pedidosContext';
 //Navigation
 import { useNavigation } from '@react-navigation/native';
 
+// Iconos
+import Icon from 'react-native-vector-icons/dist/Ionicons';
+
 const ResumenPedido = () => {
 
     //Context de pedido
-    const {pedido, total, mostrarTotal} = useContext(PedidoContext);
+    const {pedido, total, mostrarTotal, eliminarProducto} = useContext(PedidoContext);
 
     useEffect(() => {
         calcularTotal();
-    }, []);
+    }, [pedido]);
 
     const calcularTotal = () => {
         
@@ -32,6 +35,48 @@ const ResumenPedido = () => {
     // Navegación al menu
     const navegacion = useNavigation();
     
+    const progresoPedido = () => {
+        Alert.alert(
+            'Verifica tu pedido',
+            '¿Olvidas ordenar algo más?',
+            [
+                {
+                    text: 'Confirmar',
+                    onPress: () => {
+                        navegacion.navigate('ProgresoPedido')
+                    }
+                },
+                {
+                    text: 'Cancelar',
+                    style: 'cancel'
+                }
+            ]
+        )
+    }
+
+    //Eliminar productos del pedido
+    const eliminarProductoPedido = id => {
+        Alert.alert(
+            'Eliminar producto',
+            '¿Deseas eliminar este producto?',
+            [
+                {
+                    text:'Eliminar',
+                    onPress: () => {
+
+                        //Eliminar del state
+                        eliminarProducto(id);
+
+                        //Recaulcular total
+                    }
+                },
+                {
+                    text: 'Cancelar',
+                    style: 'cancel'
+                }
+            ]
+        )
+    }
 
     return ( 
         <Box style={globalStyles.contenedor}>
@@ -43,20 +88,31 @@ const ResumenPedido = () => {
 
                 <Box>
                 { pedido.map( (platillo, i) => {
-                    const {nombre, cantidad, imagen, precio} = platillo;
+                    const {nombre, cantidad, imagen, precio, id} = platillo;
 
                     return (
-                        <Box key={i}>
+                        <Box key={id + i}>
                         
-                            <HStack p={2} alignItems='center'>
+                            <HStack p={2} alignItems='center' justifyContent='space-around'>
                                 
-                                <Image size='100px' source={{uri: imagen}} alt={nombre}/>
+                                <HStack alignItems='center'>
+                                    <Image size='100px' source={{uri: imagen}} alt={nombre}/>
+                                    
+                                    <VStack px={2}>
+                                        <Text bold fontSize={16}>{nombre}</Text>
+                                        <Text>Cantidad: {cantidad}</Text>
+                                        <Text bold fontSize={16}>Precio: $ {(precio)}</Text>
+                                    </VStack>
+                                </HStack>
                                 
-                                <VStack px={2}>
-                                    <Text bold fontSize={16}>{nombre}</Text>
-                                    <Text>Cantidad: {cantidad}</Text>
-                                    <Text bold fontSize={16}>Precio: $ {precio}</Text>
-                                </VStack>
+                                <Button
+                                    bg='error.700'
+                                    colorScheme='error.700'
+                                    style={{height: 50, justifyContent:'center'}}
+                                    onPress = { () => eliminarProductoPedido(id)}
+                                >
+                                    <Icon name="close-outline" size={30} color="#fff"/>
+                                </Button>
                                 
                             </HStack>
                             
@@ -87,7 +143,8 @@ const ResumenPedido = () => {
 
                     <Button 
                         style={globalStyles.boton} 
-                        onPress = { () => navegacion.navigate('ProgresoPedido')}
+                        onPress = { () => progresoPedido()}
+                        shadow={1}
                         minW='90%'
                         >
                         <Text style={globalStyles.botonTexto}>Ordenar</Text>

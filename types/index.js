@@ -12,3 +12,6 @@ export const CONFIRMAR_ORDENAR_PLATILLO = 'CONFIRMAR_ORDENAR_PLATILLO';
 
 //Mostrar total en el resumen del pedido
 export const MOSTRAR_TOTAL_PEDIDO = 'MOSTRAR_TOTAL_PEDIDO';
+
+//Eliminar un producto del pedido
+export const ELIMINAR_PRODUCTO = 'ELIMINAR_PRODUCTO';
