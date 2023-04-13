@@ -1,5 +1,8 @@
 // TYPES
-import { SELECCIONAR_PRODUCTO, CONFIRMAR_ORDENAR_PLATILLO } from '../../types'
+import { 
+    SELECCIONAR_PRODUCTO, 
+    CONFIRMAR_ORDENAR_PLATILLO,
+    MOSTRAR_TOTAL_PEDIDO } from '../../types'
 
 export default (state, action) => {
     switch (action.type) {
@@ -14,6 +17,12 @@ export default (state, action) => {
             return{
                 ...state,
                 pedido: [...state.pedido, action.payload]
+            }
+
+        case MOSTRAR_TOTAL_PEDIDO:
+            return{
+                ...state,
+                total: action.payload
             }
 
         default:

@@ -11,7 +11,6 @@ const globalStyles = StyleSheet.create({
     },
     boton:{
         backgroundColor:'#FFDA00',
-        borderRadius:20
     },
     botonTexto: {
         textTransform: 'uppercase',

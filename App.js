@@ -20,6 +20,9 @@ import PedidoState from './context/pedidos/pedidosState';
 // Native base
 import { NativeBaseProvider } from 'native-base';
 
+// Componentes
+import BotonResumen from './components/ui/BotonResumen';
+
 
 const Stack = createStackNavigator()
 
@@ -44,7 +47,13 @@ const App = () => {
               
               <Stack.Screen name='NuevaOrden' component={NuevaOrden} options={{ title: 'Nueva Orden' }}/>
 
-              <Stack.Screen name='Menu' component={Menu} options={{ title: 'Nuestro menu' }}/>
+              <Stack.Screen 
+                name='Menu'
+                component={Menu}
+                options={{ 
+                  title: 'Nuestro menu',
+                  headerRight: props => <BotonResumen/>
+                }}/>
 
               <Stack.Screen name='DetallePlatillo' component={DetallePlatillo} options={{ title: 'Detalle del platillo' }}/>
 

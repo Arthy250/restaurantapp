@@ -6,7 +6,8 @@ import PedidoContext from './pedidosContext'
 // Types
 import { 
     SELECCIONAR_PRODUCTO,
-    CONFIRMAR_ORDENAR_PLATILLO
+    CONFIRMAR_ORDENAR_PLATILLO,
+    MOSTRAR_TOTAL_PEDIDO
 } from '../../types'
 
 
@@ -15,7 +16,8 @@ const PedidoState = (props) => {
     // Crear state inicial
     const initialState = {
         pedido: [],
-        platillo: null
+        platillo: null,
+        total: 0
     }
 
     // useReucer con dispatch para ejecutar las funciones
@@ -37,13 +39,23 @@ const PedidoState = (props) => {
         })
     }
 
+    //Muestra el total en el resumen
+    const mostrarTotal = total => {
+        dispatch({
+            type: MOSTRAR_TOTAL_PEDIDO,
+            payload: total
+        })
+    } 
+
     return(
         <PedidoContext.Provider 
             value={{
                 pedido: state.pedido,
                 platillo: state.platillo,
+                total: state.total,
                 seleccionarPlatillo,
-                guardarPedido
+                guardarPedido,
+                mostrarTotal
             }}
         >
             {props.children}
