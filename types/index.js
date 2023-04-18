@@ -15,3 +15,6 @@ export const MOSTRAR_TOTAL_PEDIDO = 'MOSTRAR_TOTAL_PEDIDO';
 
 //Eliminar un producto del pedido
 export const ELIMINAR_PRODUCTO = 'ELIMINAR_PRODUCTO';
+
+//Pedido ordenado
+export const PEDIDO_ORDENADO = 'PEDIDO_ORDENADO';

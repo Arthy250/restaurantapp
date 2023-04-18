@@ -14,10 +14,13 @@ import { useNavigation } from '@react-navigation/native';
 // Iconos
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 
+// Firebase
+import firebase from '../firebase'
+
 const ResumenPedido = () => {
 
     //Context de pedido
-    const {pedido, total, mostrarTotal, eliminarProducto} = useContext(PedidoContext);
+    const {pedido, total, mostrarTotal, eliminarProducto, pedidoRealizado} = useContext(PedidoContext);
 
     useEffect(() => {
         calcularTotal();
@@ -42,8 +45,28 @@ const ResumenPedido = () => {
             [
                 {
                     text: 'Confirmar',
-                    onPress: () => {
-                        navegacion.navigate('ProgresoPedido')
+                    onPress: async() => {
+
+                        
+                        //Crear el objeto del pedido
+                        const pedidoObj = {
+                            tiempoEntrega: 0,
+                            completado: false,
+                            totalPagar: Number(total),
+                            orden: pedido, //array
+                            creado: Date.now()
+                        }
+                        
+                        //Guardar el pedido en firebase
+                        try {
+                            const pedido = await firebase.db.collection('ordenes').add(pedidoObj);
+                            pedidoRealizado(pedido.id);
+
+                             //Navegar a el progreso del pedido
+                            navegacion.navigate('ProgresoPedido')
+                        } catch (error) {
+                            console.log(error);
+                        }
                     }
                 },
                 {
