@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Box, Text, Center} from 'native-base';
+import { Box, Text, Center, Heading, Button} from 'native-base';
 import globalStyles from '../styles/global';
 import firebase from '../firebase';
 import Countdown from 'react-countdown';
@@ -14,7 +14,10 @@ import PedidoContext from '../context/pedidos/pedidosContext';
 
 const ProgresoPedido = () => {
 
-    const [tiempo, guardarTiempo] = useState(0)
+    const [tiempo, guardarTiempo] = useState(0);
+    const [completado, guardarCompletado] = useState(false);
+
+    const navegacion = useNavigation();
 
     const {idPedido} = useContext(PedidoContext);
 
@@ -23,7 +26,8 @@ const ProgresoPedido = () => {
         firebase.db.collection('ordenes')
             .doc(idPedido)
             .onSnapshot(function(doc){
-                guardarTiempo(doc.data().tiempoEntrega)
+                guardarTiempo(doc.data().tiempoEntrega);
+                guardarCompletado(doc.data().completado)
             })
       }
       obtenerProducto()
@@ -49,13 +53,28 @@ const ProgresoPedido = () => {
                     </Center>
                 )}
 
-                {tiempo > 0 && (
+                {!completado && tiempo > 0 && (
                     <Center>
                         <Text bold>Su orden estará lista en: </Text>
                         <Countdown
                             date={ Date.now() + tiempo * 60000}
                             renderer={ renderer }
                         />
+                    </Center>
+                )}
+
+                {completado && (
+                    <Center>
+                        <Heading>Orden lista</Heading>
+                        <Text>Por favor pase a recoger su pedido</Text>
+                        <Button 
+                            style={globalStyles.boton} 
+                            onPress={ () => navegacion.navigate('Menu')}
+                            shadow={1}
+                            mt={3}
+                            >
+                            <Text style={globalStyles.botonTexto}>Comenzar una orden nueva</Text>
+                        </Button>
                     </Center>
                 )}
             </View>
